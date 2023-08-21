@@ -2,4 +2,4 @@
 
 ### Requirements
 
-- wkhtmltopdf
+- wkhtmltopdf (required to convert html into pdf)
