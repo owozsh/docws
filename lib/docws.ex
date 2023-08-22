@@ -1,18 +1,12 @@
 defmodule Docws do
-  @moduledoc """
-  Documentation for `Docws`.
-  """
+  def gen_html(path) do
+    case File.read(path) do
+      {:ok, content} -> parse(content)
+      {:error, e} -> IO.puts(e)
+    end
+  end
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Docws.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  defp parse(content) do
+    IO.puts(content)
   end
 end
