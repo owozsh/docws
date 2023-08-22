@@ -19,7 +19,6 @@ defmodule Docws.MixProject do
 
   defp deps do
     [
-      {:pdf_generator, ">=0.6.0" },
     ]
   end
 end
