@@ -7,10 +7,11 @@ defmodule Docws do
   end
 
   defp parse_file(content, out_dir) do
-    transpiled_file = content
-                      |> String.split("\n")
-                      |> Enum.map(fn line -> parse_line(line) end)
-                      |> Enum.join()
+    transpiled_file =
+      content
+      |> String.split("\n")
+      |> Enum.map(fn line -> parse_line(line) end)
+      |> Enum.join()
 
     File.write!(out_dir, transpiled_file)
   end
