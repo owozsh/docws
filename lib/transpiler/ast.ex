@@ -1,5 +1,5 @@
 defmodule Transpiler.AST do
-  def(create()) do
+  def create() do
     {:root, nil, []}
   end
 
