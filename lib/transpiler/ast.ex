@@ -3,8 +3,7 @@ defmodule Transpiler.AST do
     {:root, nil, []}
   end
 
-  def add_child(ast, child) do
-    {type, data, children} = ast
+  def add_child({type, data, children}, child) do
     {type, data, [children | child]}
   end
 end

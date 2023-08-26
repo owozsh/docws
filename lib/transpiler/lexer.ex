@@ -1,27 +1,18 @@
 defmodule Transpiler.Lexer do
-  def scan_file(content, out_dir) do
-    transpiled_file =
-      content
-      |> Enum.map(fn line -> scan_line(line) end)
-      |> Enum.join()
+  alias Transpiler.Token
 
-    File.write!(out_dir, transpiled_file)
+  @type ast :: {atom, map, list}
+
+  @spec scan(ast, list, integer) :: {ast, list, integer}
+  def scan(ast, chars, pos)
+
+  def scan(ast, chars, pos) when length(chars) == pos do
+    ast
   end
 
-  defp scan_line(line) do
-    "parsed:" <> line <> "\n"
-  end
-
-  defp scan_char(char) do
-    case char do
-      "#" -> :title
-      "-" -> :list
-      "*" -> :bold
-      "_" -> :italic
-      _ -> char
+  def scan(ast, chars, pos) do
+    for char <- chars do
+      token = Token.from_char(char)
     end
-  end
-
-  defp scan_title(node) do
   end
 end
