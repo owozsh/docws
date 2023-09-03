@@ -25,9 +25,11 @@ defmodule Transpiler.Lexer do
       |> Enum.join()
       |> String.split("\n")
 
+    text_node = AST.create_node(:text, title_text, [])
+
     child =
       AST.create_node(:title, nil, [])
-      |> AST.add_child(AST.create_node(:text, title_text, []))
+      |> AST.add_child(text_node)
 
     [chars_wo_token, _] = chars
 
