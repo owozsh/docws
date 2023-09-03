@@ -13,8 +13,10 @@ defmodule LexerTest do
     char_list = String.graphemes("# Testing\n")
 
     final_ast = Lexer.scan_token(:title, ast, char_list)
-    
-    ast_string = "root\n| title\n| | text\n"
+
+    ast_string = "root\n| title\n| | text :: Testing\n"
+
+    AST.print(final_ast)
 
     is_tree_correct? =
       capture_io(fn -> AST.print(final_ast) end)

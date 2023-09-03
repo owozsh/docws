@@ -22,10 +22,12 @@ defmodule Transpiler.Lexer do
   def scan_token(:title, ast, chars) do
     [_ | chars_wo_token] = chars
 
-    [title_text | _] =
+    title_text =
       chars_wo_token
       |> Enum.join()
       |> String.split("\n")
+      |> List.first()
+      |> String.trim()
 
     text_node = AST.create_node(:text, title_text, [])
 
