@@ -20,8 +20,10 @@ defmodule Transpiler.Lexer do
   end
 
   def scan_token(:title, ast, chars) do
-    [title_text, _] =
-      chars
+    [_ | chars_wo_token] = chars
+
+    [title_text | _] =
+      chars_wo_token
       |> Enum.join()
       |> String.split("\n")
 
@@ -31,9 +33,6 @@ defmodule Transpiler.Lexer do
       AST.create_node(:title, nil, [])
       |> AST.add_child(text_node)
 
-    [chars_wo_token, _] = chars
-
     AST.add_child(ast, child)
-    |> scan(chars_wo_token)
   end
 end

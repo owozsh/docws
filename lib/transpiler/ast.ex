@@ -8,6 +8,13 @@ defmodule Transpiler.AST do
   end
 
   def add_child({type, data, children}, child) do
-    {type, data, [children | child]}
+    {type, data, [child | children]}
+  end
+
+  def print({type, _, children}, indent \\ "") do
+    IO.puts("#{indent}#{type}")
+    for child <- children do
+      print(child, indent <> "| ")
+    end
   end
 end
