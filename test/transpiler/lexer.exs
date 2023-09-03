@@ -10,7 +10,7 @@ defmodule LexerTest do
   test "should return an AST with a title node" do
     ast = AST.create()
 
-    char_list = String.graphemes("# Testing\n")
+    char_list = String.graphemes("# Testing\nabc")
 
     final_ast = Lexer.scan_token(:title, ast, char_list)
 

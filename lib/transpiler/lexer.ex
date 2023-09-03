@@ -12,29 +12,30 @@ defmodule Transpiler.Lexer do
   end
 
   def scan(ast, chars) do
-    token = Token.from_char(chars[0])
+    [token_char | next] = chars
+    token = Token.from_char(token_char)
 
     case token do
       :title -> scan_token(token, ast, chars)
+      _ -> scan(ast, next)
     end
   end
 
   def scan_token(:title, ast, chars) do
     [_ | chars_wo_token] = chars
 
-    title_text =
+    [title_text, next] =
       chars_wo_token
       |> Enum.join()
       |> String.split("\n")
-      |> List.first()
-      |> String.trim()
 
-    text_node = AST.create_node(:text, title_text, [])
+    text_node = AST.create_node(:text, String.trim(title_text), [])
 
     child =
       AST.create_node(:title, nil, [])
       |> AST.add_child(text_node)
 
     AST.add_child(ast, child)
+    |> scan(String.graphemes(next))
   end
 end

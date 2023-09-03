@@ -8,6 +8,9 @@ defmodule Transpiler.Token do
   end
 
   def from_char(char) do
-    tokens() |> Map.get(char)
+    cond do
+      is_token?(char) -> tokens() |> Map.get(char)
+      true -> nil
+    end
   end
 end

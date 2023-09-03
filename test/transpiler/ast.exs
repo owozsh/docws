@@ -8,7 +8,7 @@ defmodule ASTTest do
     node = AST.create()
     {initial_type, initial_data, initial_children} = node
 
-    child_to_be_added = "child"
+    child_to_be_added = AST.create_node(:text, "Testing", [])
 
     {type, data, children} = node |> AST.add_child(child_to_be_added)
 
