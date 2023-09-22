@@ -32,12 +32,25 @@ defmodule Transpiler.Lexer do
   end
 
   defp lex(input, ast) do
-    {ast_node, rest} = tokenize(input)
+    {ast_node, rest} = tokenize(input, ast)
     new_ast = AST.add_child(ast, ast_node)
     lex(rest, new_ast)
   end
 
-  @spec tokenize(input :: String.t()) :: {token(), rest :: String.t()}
-  defp tokenize(<<"#", rest::binary>>) do
+  # tokenize should store ast to get a type content
+
+  @spec tokenize(input :: String.t(), ast) :: {ast, rest :: String.t()}
+  defp tokenize(<<"#", rest::binary>>, ast) do
+    title_node = AST.create_node(:title, nil, [])
+    new_ast = ast |> AST.add_child(title_node)
+    {new_ast, rest}
+  end
+
+  defp tokenize(<<"-", rest::binary>>, ast) do
+    # [] should store the list content
+    {AST.create_node(:list, nil, []), rest}
+  end
+
+  defp tokenize(<<"\t-", rest::binary>>, ast) do
   end
 end
