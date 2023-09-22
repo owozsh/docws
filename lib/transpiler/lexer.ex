@@ -2,40 +2,42 @@ defmodule Transpiler.Lexer do
   alias Transpiler.AST
   alias Transpiler.Token
 
-  @type ast :: {atom, map, list}
+  defguardp is_whitespace(c) when c in ~c[ \n\t]
+  defguardp is_letter_or_digit(c) when c in ?a..?z or c in ?A..?Z or c == ?_ or c in ?0..?9
 
-  @spec scan(ast, list) :: {ast, list}
-  def scan(ast, chars)
+  @type token ::
+          :title
+          | :list
+          | :bold
+          | :italic
 
-  def scan(ast, chars) when length(chars) == 0 do
-    ast
+  @type ast :: {token, map, list}
+
+  @spec scan(String.t()) :: ast
+  def scan(input)
+
+  def scan(input) when is_binary(input) do
+    ast = AST.create()
+    lex(input, ast)
   end
 
-  def scan(ast, chars) do
-    [token_char | next] = chars
-    token = Token.from_char(token_char)
-
-    case token do
-      :title -> scan_token(token, ast, chars)
-      _ -> scan(ast, next)
-    end
+  @spec lex(String.t(), ast) :: ast
+  defp lex(<<>>, {token, data, ast_children}) do
+    children = ast_children |> Enum.reverse()
+    {token, data, children}
   end
 
-  def scan_token(:title, ast, chars) do
-    [_ | chars_wo_token] = chars
+  defp lex(<<c::8, rest::binary>>, ast) when is_whitespace(c) do
+    lex(rest, ast)
+  end
 
-    [title_text, next] =
-      chars_wo_token
-      |> Enum.join()
-      |> String.split("\n")
+  defp lex(input, ast) do
+    {ast_node, rest} = tokenize(input)
+    new_ast = AST.add_child(ast, ast_node)
+    lex(rest, new_ast)
+  end
 
-    text_node = AST.create_node(:text, String.trim(title_text), [])
-
-    child =
-      AST.create_node(:title, nil, [])
-      |> AST.add_child(text_node)
-
-    AST.add_child(ast, child)
-    |> scan(String.graphemes(next))
+  @spec tokenize(input :: String.t()) :: {token(), rest :: String.t()}
+  defp tokenize(<<"#", rest::binary>>) do
   end
 end
