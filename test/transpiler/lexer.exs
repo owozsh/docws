@@ -24,4 +24,14 @@ defmodule LexerTest do
 
     assert is_tree_correct?
   end
+
+  test "watch tree" do
+    ast = AST.create()
+
+    char_list = String.graphemes("# Testing\n- Aqui tenho uma lista\nAqui nao")
+
+    final_ast = Lexer.scan(ast, char_list)
+
+    AST.print(final_ast)
+  end
 end
