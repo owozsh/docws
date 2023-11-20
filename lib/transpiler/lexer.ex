@@ -25,9 +25,8 @@ defmodule Transpiler.Lexer do
     lex(rest, ast)
   end
 
-  # tokenize should store ast to get a type content
-
   @spec tokenize(input :: String.t(), ast) :: {ast, rest :: String.t()}
+
   defp tokenize(<<"#", rest::binary>>, ast) do
     title_node = AST.create_node(:title, nil, [])
     new_ast = ast |> AST.add_child(title_node)
